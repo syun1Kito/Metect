@@ -10,11 +10,16 @@ public class PlayerController : MonoBehaviour
     public int playerID { get; set; }
 
     [SerializeField]
-    FlipperController flipper;
+    FlipperController flipperController;
 
     [SerializeField]
-    BallController ball;
+    BallController ballController;
 
+    [SerializeField]
+    MeteorController meteorController;
+
+    [SerializeField]
+    HPController hpController;
 
     [SerializeField]
     GameObject walls = null;
@@ -25,7 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         //flipper = GetComponent<FlipperController>();
         //flipper = GameObject.Find("Flipper");
-        flipper.ChangeSprite(playerID);
+        flipperController.ChangeSprite(playerID);
 
         walls = Instantiate(walls, transform.position, Quaternion.identity, this.transform);
        // GameObject flipperLeft = Instantiate(flipper.flipperLeft, transform.position, Quaternion.identity);

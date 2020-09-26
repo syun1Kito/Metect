@@ -10,6 +10,9 @@ public class BallController : MonoBehaviour
     [SerializeField]
     protected Vector3 spawnPos;
 
+    [SerializeField]
+    HPController hpController;
+
     GameObject defaultBall;
     Rigidbody2D rb;
 
@@ -28,6 +31,8 @@ public class BallController : MonoBehaviour
             defaultBall.transform.position = transform.position + spawnPos;
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
+
+            hpController.Damage(10);
         }
         //Debug.Log(rb.angularVelocity);
     }
@@ -38,5 +43,7 @@ public class BallController : MonoBehaviour
         GameObject ball = Instantiate(ballObj, transform.position + spawnPos, Quaternion.identity, this.transform);
         return ball;
     }
+
+ 
 
 }
