@@ -17,7 +17,7 @@ public class FlipperController : MonoBehaviour
     //[SerializeField]
     // protected GameObject flipperLeftBase, flipperRightBase;
     [SerializeField]
-    protected GameObject flipperLeft, flipperRight;
+    GameObject flipperLeft, flipperRight;
 
     HingeJoint2D HJLeft, HJRight;
 

@@ -4,29 +4,47 @@ using UnityEngine;
 
 public class MeteorController : MonoBehaviour
 {
+
+    PlayerController playerController;
+
     [SerializeField]
     GameObject meteorBase;
 
     [SerializeField]
-    protected Vector3 spawnPos;
+    Vector3 spawnPos;
+    public Vector3 randomPos { get; private set; }
 
     [SerializeField]
-    float spawnRange;
+    float spawnRange = 0;
     //GameObject meteor;
     //Rigidbody2D rb;
 
-    [SerializeField]
+    public static float defaultSpawnParSecond = 1f;
+    public static float spawnParSecond { get; private set; }
+    public static float spawnParSecondIncrease { get; private set; } = 0.1f;
     float spawnInterval;
-    float spawnTime;
 
-    [SerializeField]
-    HPController hpController;
+    public static float defaultSize = 1;
+    public static float defaultMoveSpeed = 1;
+    public static float defaultRotateSpeedLower = 20;
+    public static float defaultRotateSpeedUpper = 80;
+    public static int defaultHP = 1;
+    public static int defaultDamage = 5;
+
+    public static float difficulty { get; private set; } = 1;
+    public static float difficultyIncrease { get; private set; } = 0.25f;
+
+    List<GameObject> meteorList = new List<GameObject>();
+    const int meteorKillDamage = 10; 
+
 
     // Start is called before the first frame update
     void Start()
     {
-        spawnTime = spawnInterval;
+        playerController = GetComponent<PlayerController>();
 
+        spawnParSecond = defaultSpawnParSecond;
+        spawnInterval = 1 / spawnParSecond;
         
 
         //meteor = SpawnBall(ballBase, spawnPos);
@@ -38,31 +56,70 @@ public class MeteorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spawnTime -= Time.deltaTime;      
+        spawnInterval -= Time.deltaTime;
+
+        randomPos = spawnPos + new Vector3(Random.Range(-spawnRange, spawnRange), 0, 0);
 
         if (Input.GetKeyDown(KeyCode.Space)) 
         {
-            SpawnMeteor(meteorBase, spawnPos + new Vector3(Random.Range(-spawnRange, spawnRange), 0, 0));
+            SpawnMeteor(randomPos,playerController,defaultSize,defaultMoveSpeed * difficulty, defaultHP,defaultDamage);
         }
 
-        if (spawnTime<0) 
+        if (spawnInterval<0) 
         {
-            SpawnMeteor(meteorBase, spawnPos + new Vector3(Random.Range(-spawnRange, spawnRange), 0, 0));
-            spawnTime = spawnInterval;
+            SpawnMeteor(randomPos,playerController,defaultSize,defaultMoveSpeed * difficulty,defaultHP,defaultDamage);
+            spawnInterval = 1/spawnParSecond;
         }
 
 
     }
 
 
-    public GameObject SpawnMeteor(GameObject meteorObj, Vector3 spawnPos)
+    public GameObject SpawnMeteor(Vector3 spawnPos,PlayerController from,float size,float moveSpeed,int HP,int damage)
     {
-        GameObject meteor = Instantiate(meteorObj, transform.position + spawnPos, Quaternion.identity, this.transform);
+        GameObject meteorObj = Instantiate(meteorBase, transform.position + spawnPos, Quaternion.identity, this.transform);
+        Meteor meteor = meteorObj.GetComponent<Meteor>();
 
-        meteor.GetComponent<Meteor>().hpController = hpController;
+        meteor.playerController = GetComponent<PlayerController>();
+        meteor.size = size;
+        meteor.moveSpeed = moveSpeed;
+        meteor.HP = HP;
+        meteor.damage = damage;
+        meteor.rotateSpeed = Random.Range(defaultRotateSpeedLower,defaultRotateSpeedUpper);
+        meteorObj.GetComponent<SpriteRenderer>().color = from.playerColor;
+        //meteor.GetComponent<Meteor>().hpController = hpController;
 
-        //meteor.GetComponent<Meteor>().playerID=playerID;
+        meteorList.Add(meteorObj);
 
-        return meteor;
+        return meteorObj;
+    }
+
+    public void RemoveMeteor(GameObject meteor)
+    {
+        meteorList.Remove(meteor);
+        Destroy(meteor);
+    }
+    public int RemoveAllMeteor()
+    {
+
+        List<GameObject> tmp = new List<GameObject>(meteorList);
+        int meteorNum = tmp.Count;
+
+        foreach (GameObject meteor in tmp)
+        {
+            meteor.GetComponent<Meteor>().Damaged(meteorKillDamage);
+        }
+
+        return meteorNum;
+    }
+
+    public static void IncreaseDifficulty() 
+    {
+        MeteorController.difficulty += MeteorController.difficultyIncrease;
+    }
+
+    public static void IncreaseSpawnParSecond()
+    {
+        MeteorController.spawnParSecond += MeteorController.spawnParSecondIncrease;
     }
 }

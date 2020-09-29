@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
-
-    [SerializeField]
-    float moveSpeed;
-
-    [SerializeField]
-    float rotateSpeed;
+    public float size { get; set; }
+    public float moveSpeed { get; set; }
+    public float rotateSpeed { get; set; }
+    public int HP { get; set; }
+    public int damage { get; set; }
 
     Rigidbody2D rb;
 
-    public HPController hpController { get; set; }
-    public int playerID { get; set; }
+
+    public PlayerController playerController { get; set; }
+    //public HPController hpController { get; set; }
+    //public int playerID { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,8 @@ public class Meteor : MonoBehaviour
         //speed = 10;
 
         rb = GetComponent<Rigidbody2D>();
-        //rb.AddForce(Vector2.down * speed);
+
+        GetComponent<Transform>().localScale = new Vector3(size, size, 1);
 
 
     }
@@ -36,20 +38,57 @@ public class Meteor : MonoBehaviour
 
         if (transform.position.y < -5.5f)
         {
-            hpController.Damage(5);
-            Destroy(this.gameObject);
+            playerController.hpController.Damage(damage);
+            playerController.meteorController.RemoveMeteor(this.gameObject);
+            
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    public void Damaged(int damage)
     {
-        string layerName = LayerMask.LayerToName(other.gameObject.layer);
+        HP -= damage;
+     
+        if (HP <= 0)
+        {
+            playerController.meteorController.RemoveMeteor(this.gameObject);
+        }
+    }
+
+    //private void OnCollisionEnter2D(Collision2D other)
+    //{
+    //    string layerName = LayerMask.LayerToName(other.gameObject.layer);
 
         
-        if (layerName == "ball")
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    //    if (layerName == "ball")
+    //    {
+    //        HP--;
+    //    }
+
+    //    if (HP<=0)
+    //    {
+    //        playerController.meteorController.RemoveMeteor(this.gameObject);
+    //    }
+
+
+    //}
+
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    string layerName = LayerMask.LayerToName(other.gameObject.layer);
+
+
+    //    if (layerName == "penetrationBall")
+    //    {
+    //        HP--;
+    //    }
+
+    //    if (HP <= 0)
+    //    {
+    //        playerController.meteorController.RemoveMeteor(this.gameObject);
+    //    }
+
+
+    //}
+
 
 }

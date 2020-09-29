@@ -5,37 +5,44 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
- 
-   
+
     public int playerID { get; set; }
 
-    [SerializeField]
-    FlipperController flipperController;
+    public static Color[] PlayerColor = { new Color(1f,0.4f,0.4f), new Color(0.6f, 0.8f, 1f) };
+    public Color playerColor { get; private set; }
+
+    public PlayerUIController playerUIController { get; private set; }
+    public FlipperController flipperController { get; private set; }
+    public BallController ballController { get; private set; }
+    public MeteorController meteorController { get; private set; }
+    public HPController hpController { get; private set; }
+    public AttackController attackController { get; private set; }
 
     [SerializeField]
-    BallController ballController;
-
-    [SerializeField]
-    MeteorController meteorController;
-
-    [SerializeField]
-    HPController hpController;
-
-    [SerializeField]
-    GameObject walls = null;
-
-
+    GameObject wallBase = null;
+    //[SerializeField]
+    //GameObject EarthBase = null;
 
     void Start()
     {
-        //flipper = GetComponent<FlipperController>();
-        //flipper = GameObject.Find("Flipper");
+        playerColor = PlayerColor[playerID];
+
+        playerUIController = GetComponent<PlayerUIController>();
+        flipperController = GetComponent<FlipperController>();
+        ballController = GetComponent<BallController>();
+        meteorController = GetComponent<MeteorController>();
+        hpController = GetComponent<HPController>();
+        attackController = GetComponent<AttackController>();
+
         flipperController.ChangeSprite(playerID);
 
-        walls = Instantiate(walls, transform.position, Quaternion.identity, this.transform);
-       // GameObject flipperLeft = Instantiate(flipper.flipperLeft, transform.position, Quaternion.identity);
-        // 作成したオブジェクトを子として登録
-        //flipperLeft.transform.parent = transform;
+        //GameObject wall = Instantiate(wallBase, transform.position, Quaternion.identity, this.transform);
+        var child = wallBase.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var item in child)
+        {
+            item.color = playerColor;
+        }
+        //GameObject Earth = Instantiate(EarthBase, transform.position, Quaternion.identity, this.transform);
 
     }
 
