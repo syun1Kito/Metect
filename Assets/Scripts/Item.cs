@@ -18,6 +18,7 @@ public class Item : MonoBehaviour
     [SerializeField]
     float penetrationTime;
 
+
     [SerializeField]
     int healAmount;
     void Start()
@@ -68,9 +69,14 @@ public class Item : MonoBehaviour
 
     public void AllDestroy(PlayerController target)
     {
-        int destroyNum = target.meteorController.RemoveAllMeteor();
-        target.ballController.itemHitNum = destroyNum;
-        target.ballController.CountHitSum();
+        if (!target.ballController.isAllDestroing)
+        {
+            target.ballController.isAllDestroing = true;
+
+            int destroyNum = target.meteorController.RemoveAllMeteor();
+            target.ballController.itemHitNum = destroyNum;
+            target.ballController.CountHitSum();
+        }
     }
     public void Heal(PlayerController target)
     {

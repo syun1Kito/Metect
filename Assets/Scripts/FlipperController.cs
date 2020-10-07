@@ -79,7 +79,7 @@ public class FlipperController : MonoBehaviour
     {
         JointMotor2D motorLeft = HJLeft.motor;
         JointMotor2D motorRight = HJRight.motor;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetButton("LFlip"))
         {            
             motorLeft.motorSpeed = -motorSpeed;
             HJLeft.motor = motorLeft;
@@ -90,7 +90,7 @@ public class FlipperController : MonoBehaviour
             HJLeft.motor = motorLeft;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetButton("RFlip"))
         {
             motorRight.motorSpeed = motorSpeed;
             HJRight.motor = motorRight;

@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
          
             players[i] = Instantiate(playerBase, position[i], Quaternion.identity);
             players[i].playerID = i;
+            //players[i].transform.SetAsFirstSibling();
         }
     }
     //public void Respawn(int playerID)

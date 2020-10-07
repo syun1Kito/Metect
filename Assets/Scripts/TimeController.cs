@@ -24,12 +24,16 @@ public class TimeController : MonoBehaviour
     [SerializeField]
     int speedUpInterval = 15;
 
+
+    bool isPlaying;
+
     void Start()
     {
         canvas = GameObject.Find("Canvas");
 
         startTime = Time.time;
         timer = Instantiate(timerBase, timerPos, Quaternion.identity, canvas.transform);
+        timer.transform.SetAsFirstSibling();
         timerText = timer.GetComponentInChildren<Text>();
 
         minute = 0;

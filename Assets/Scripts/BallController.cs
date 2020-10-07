@@ -17,7 +17,7 @@ public class BallController : MonoBehaviour
     List<GameObject> ballList = new List<GameObject>();
     int hitSum = 0;
     public int itemHitNum { get; set; } = 0;
-
+    public bool isAllDestroing { get; set; } = false;
 
     // Start is called before the first frame update
     void Start()
@@ -88,6 +88,7 @@ public class BallController : MonoBehaviour
         playerController.attackController.Attack(playerController, type);
 
         ResetHitCount();
+        isAllDestroing = false;
 
     }
 

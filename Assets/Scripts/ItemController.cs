@@ -15,8 +15,6 @@ public class ItemController : MonoBehaviour
     [SerializeField]
     GameObject itemBase;
 
-    
-
 
     // Start is called before the first frame update
     void Start()
