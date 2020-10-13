@@ -25,6 +25,8 @@ public class PauseController : MonoBehaviour
     GameObject pauseUIBase;
     GameObject pauseUI;
 
+    TimeController timeController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,12 +41,14 @@ public class PauseController : MonoBehaviour
         eventSystem.firstSelectedGameObject = (pauseUI.transform.Find("PausePanel/Resume").gameObject);
 
         animator = pauseUI.GetComponentInChildren<Animator>();
+
+        timeController = GetComponent<TimeController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause") && timeController.isRunning && timeController.playable)
         {
             if (isPaused)
             {

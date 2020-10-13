@@ -35,14 +35,19 @@ public class HPController : MonoBehaviour
 
 
     PlayerController playerController;
-    //GameObject canvas;
-
+    GameObject gameManager;
+    TimeController timeController;
+    AnnounceController announceController;
 
     void Start()
     {
         HP = maxHP;
 
         playerController = GetComponent<PlayerController>();
+
+        gameManager = GameObject.Find("GameManager");
+        timeController = gameManager.GetComponent<TimeController>();
+        announceController = gameManager.GetComponent<AnnounceController>();
 
         //canvas = GameObject.Find("Canvas");
         //hpGauge = Instantiate(hpGaugeBase, transform.position + hpGaugePos,Quaternion.identity,canvas.transform);
@@ -56,19 +61,35 @@ public class HPController : MonoBehaviour
 
     }
 
-    public void Damage(int amount)
+    void Update()
     {
-        if (HP - amount < 0)
+        if (HP <= 0 && timeController.playable)
         {
-            HPReductionUI(HP);
-            HP = 0;
-        }
-        else
-        {
-            HPReductionUI(amount);
-            HP -= amount;
+            timeController.TogglePlayable();
+            announceController.Finish();
         }
 
+        if (!timeController.playable && HP > 0)
+        {
+            gameManager.GetComponent<GameManager>().winner = playerController;
+        }
+    }
+
+    public void Damage(int amount)
+    {
+        if (timeController.playable)
+        {
+            if (HP - amount < 0)
+            {
+                HPReductionUI(HP);
+                HP = 0;
+            }
+            else
+            {
+                HPReductionUI(amount);
+                HP -= amount;
+            }
+        }
     }
 
     public void HPReductionUI(int reducationValue)
@@ -76,12 +97,12 @@ public class HPController : MonoBehaviour
         float valueFrom = (float)HP / maxHP;
         float valueTo = (float)(HP - reducationValue) / maxHP;
 
-        playerController.playerUIController.HPUpDate(valueFrom,valueTo);       
+        playerController.playerUIController.HPUpDate(valueFrom, valueTo);
     }
 
     public void Heal(int amount)
     {
-        if (HP+amount>maxHP)
+        if (HP + amount > maxHP)
         {
             HPGainUI(maxHP - HP);
             HP = maxHP;

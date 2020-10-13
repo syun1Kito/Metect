@@ -14,7 +14,8 @@ public class Meteor : MonoBehaviour
 
 
     public PlayerController playerController { get; set; }
-    //public HPController hpController { get; set; }
+    
+
     //public int playerID { get; set; }
 
     // Start is called before the first frame update

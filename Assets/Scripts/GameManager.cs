@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Vector3[] position = null;
 
-
+    public PlayerController winner { get; set; } = null;
    
 
     public PlayerController[] players { get; private set; }
