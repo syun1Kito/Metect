@@ -13,12 +13,12 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - flipper
+  - wall
+  - meteor
+  - ball
+  - item
+  - penetrationBall
   - 
   - 
   - 
