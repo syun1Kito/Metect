@@ -58,6 +58,7 @@ public class PlayerUIController : MonoBehaviour
     public void InitHitCount()
     {
         hitCount = Instantiate(hitCountBase, transform.position + hitCountPos, Quaternion.identity, canvas.transform);
+        hitCount.transform.SetAsFirstSibling();
 
         hitCountText = hitCount.transform.Find("HitCountText").gameObject.GetComponent<Text>();
 
@@ -83,6 +84,7 @@ public class PlayerUIController : MonoBehaviour
     public void InitHP()
     {
         hpGauge = Instantiate(hpGaugeBase, transform.position + hpGaugePos, Quaternion.identity, canvas.transform);
+        hpGauge.transform.SetAsFirstSibling();
 
         greenGauge = hpGauge.transform.Find("GreenGauge").gameObject.GetComponent<Image>();
         redGauge = hpGauge.transform.Find("RedGauge").gameObject.GetComponent<Image>();

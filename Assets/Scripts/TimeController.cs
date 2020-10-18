@@ -24,17 +24,30 @@ public class TimeController : MonoBehaviour
     [SerializeField]
     int speedUpInterval = 15;
 
+
+    public bool isRunning { get; set; } = false;
+    public bool playable { get; set; } = true;
+
+    AnnounceController announceController;
+
     void Start()
     {
+        Time.timeScale = 0;
+
         canvas = GameObject.Find("Canvas");
 
         startTime = Time.time;
         timer = Instantiate(timerBase, timerPos, Quaternion.identity, canvas.transform);
+        timer.transform.SetAsFirstSibling();
         timerText = timer.GetComponentInChildren<Text>();
 
         minute = 0;
         second = 0f;
         oldSecond = 0f;
+
+        announceController = GetComponent<AnnounceController>();
+        announceController.ReadyGo();
+
     }
 
     // Update is called once per frame
@@ -45,6 +58,9 @@ public class TimeController : MonoBehaviour
         Timer();
 
         DifficultyChanger();
+
+
+      
 
         oldSecond = realTime;
     }
@@ -78,5 +94,26 @@ public class TimeController : MonoBehaviour
 
         }
 
+    }
+
+    public void ToggleIsRunning()
+    {
+        
+        isRunning = !isRunning;
+        if (isRunning)
+        {
+            playable = true;
+            Time.timeScale = 1;
+        }
+        else
+        {
+            playable = false;
+            Time.timeScale = 0;
+        }
+    }
+
+    public void TogglePlayable()
+    {
+        playable = !playable;
     }
 }

@@ -19,7 +19,8 @@ public class MeteorController : MonoBehaviour
     //GameObject meteor;
     //Rigidbody2D rb;
 
-    public static float defaultSpawnParSecond = 1f;
+    [SerializeField]
+    float defaultSpawnParSecond = 1f;
     public static float spawnParSecond { get; private set; }
     public static float spawnParSecondIncrease { get; private set; } = 0.1f;
     float spawnInterval;

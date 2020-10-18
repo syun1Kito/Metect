@@ -281,7 +281,10 @@ GameObject:
   - component: {fileID: 597994627}
   - component: {fileID: 597994626}
   - component: {fileID: 597994628}
+  - component: {fileID: 597994631}
   - component: {fileID: 597994629}
+  - component: {fileID: 597994630}
+  - component: {fileID: 597994632}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -350,6 +353,48 @@ MonoBehaviour:
     type: 3}
   timerPos: {x: 0, y: 4, z: 0}
   speedUpInterval: 15
+--- !u!114 &597994630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597994625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d26b9117adbb024a98dafc13326f9a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseUIBase: {fileID: 7740431126858508849, guid: 1c17ef180ff3eda4fbff683ab3523873,
+    type: 3}
+--- !u!114 &597994631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597994625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582b4e57accf4154baa0df60af069a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  announceBase: {fileID: 7350272628305564075, guid: 3fdc42fa6e31f04409fe3674abe6c90b,
+    type: 3}
+--- !u!114 &597994632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597994625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81065f3a1a0cb7548b3dfadc84b3c6ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonUIBase: {fileID: 4078166503523290317, guid: 35da56e202c2bca45a58097a60d3d2f6,
+    type: 3}
 --- !u!1 &887595369
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +551,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

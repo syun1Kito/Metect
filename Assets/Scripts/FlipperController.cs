@@ -21,7 +21,7 @@ public class FlipperController : MonoBehaviour
 
     HingeJoint2D HJLeft, HJRight;
 
-    //protected SpriteRenderer spriteLeft, spriteRight;
+    TimeController timeController;
 
     public void Start()
     {
@@ -29,30 +29,15 @@ public class FlipperController : MonoBehaviour
         //flipperLeft.transform.parent = transform;
         //flipperRight = Instantiate(flipperRightBase, transform.position + new Vector3(initX, 0, 0), Quaternion.Euler(0, 0, initRote));
         //flipperRight.transform.parent = transform;
-        
+
         //spriteLeft = flipperLeft.GetComponent<SpriteRenderer>();
         //spriteLeft.sprite = flippers[0];
         //spriteRight = flipperRight.GetComponent<SpriteRenderer>();
         //spriteRight.sprite = flippers[1];
 
-        HJLeft = flipperLeft.GetComponent<HingeJoint2D>();
-        JointMotor2D motorLeft = HJLeft.motor;
-        motorLeft.motorSpeed = motorSpeed;
-        HJLeft.motor = motorLeft;
-        JointAngleLimits2D angleLeft = HJLeft.limits;
-        angleLeft.min = hingeAngleLow;
-        angleLeft.max = -hingeAngleUp;
-        HJLeft.limits = angleLeft;
-        
+        FlipperInit();
 
-        HJRight = flipperRight.GetComponent<HingeJoint2D>();
-        JointMotor2D motorRight = HJRight.motor;
-        motorRight.motorSpeed = -motorSpeed;
-        HJRight.motor = motorRight;
-        JointAngleLimits2D angleRight = HJRight.limits;
-        angleRight.min = -hingeAngleLow;
-        angleRight.max = hingeAngleUp;
-        HJRight.limits = angleRight;
+        timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
 
     }
 
@@ -79,7 +64,7 @@ public class FlipperController : MonoBehaviour
     {
         JointMotor2D motorLeft = HJLeft.motor;
         JointMotor2D motorRight = HJRight.motor;
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetButton("LFlip") && timeController.playable)
         {            
             motorLeft.motorSpeed = -motorSpeed;
             HJLeft.motor = motorLeft;
@@ -90,7 +75,7 @@ public class FlipperController : MonoBehaviour
             HJLeft.motor = motorLeft;
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetButton("RFlip") && timeController.playable)
         {
             motorRight.motorSpeed = motorSpeed;
             HJRight.motor = motorRight;
@@ -103,5 +88,26 @@ public class FlipperController : MonoBehaviour
 
     }
 
+    public void FlipperInit()
+    {
+        HJLeft = flipperLeft.GetComponent<HingeJoint2D>();
+        JointMotor2D motorLeft = HJLeft.motor;
+        motorLeft.motorSpeed = motorSpeed;
+        HJLeft.motor = motorLeft;
+        JointAngleLimits2D angleLeft = HJLeft.limits;
+        angleLeft.min = hingeAngleLow;
+        angleLeft.max = -hingeAngleUp;
+        HJLeft.limits = angleLeft;
+
+
+        HJRight = flipperRight.GetComponent<HingeJoint2D>();
+        JointMotor2D motorRight = HJRight.motor;
+        motorRight.motorSpeed = -motorSpeed;
+        HJRight.motor = motorRight;
+        JointAngleLimits2D angleRight = HJRight.limits;
+        angleRight.min = -hingeAngleLow;
+        angleRight.max = hingeAngleUp;
+        HJRight.limits = angleRight;
+    }
 
 }

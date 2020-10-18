@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Vector3[] position = null;
 
-
+    public PlayerController winner { get; set; } = null;
    
 
     public PlayerController[] players { get; private set; }
@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
          
             players[i] = Instantiate(playerBase, position[i], Quaternion.identity);
             players[i].playerID = i;
+            //players[i].transform.SetAsFirstSibling();
         }
     }
     //public void Respawn(int playerID)

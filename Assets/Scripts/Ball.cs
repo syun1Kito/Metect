@@ -24,12 +24,16 @@ public class Ball : MonoBehaviour
     bool penetratable = false;
     bool isBaseBall = true;
 
+    TimeController timeController;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         //cc = GetComponent<CircleCollider2D>();
+
+        timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
     }
 
     // Update is called once per frame
@@ -37,7 +41,11 @@ public class Ball : MonoBehaviour
     {
         if (transform.position.y < -5.5f || transform.position.y > 5.5f)
         {
-            Respawn();
+            if (timeController.playable)
+            {
+                Respawn();
+            }
+            
         }
     }
 
@@ -45,12 +53,12 @@ public class Ball : MonoBehaviour
     {
         playerController.hpController.Damage(damageToPlayer);
 
-        Reset();
+        ResetBall();
 
 
     }
 
-    public void Reset()
+    public void ResetBall()
     {
         transform.position = playerController.transform.position + spawnPos;
         rb.velocity = Vector2.zero;
