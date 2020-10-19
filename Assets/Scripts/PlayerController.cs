@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public MeteorController meteorController { get; private set; }
     public HPController hpController { get; private set; }
     public AttackController attackController { get; private set; }
+    public InputController inputController { get; private set; }
 
     [SerializeField]
     GameObject wallBase = null;
@@ -33,15 +34,15 @@ public class PlayerController : MonoBehaviour
         meteorController = GetComponent<MeteorController>();
         hpController = GetComponent<HPController>();
         attackController = GetComponent<AttackController>();
-
-        flipperController.ChangeSprite(playerID);
+        inputController = GetComponent<InputController>();
+        //flipperController.ChangeSprite(playerID);
 
         //GameObject wall = Instantiate(wallBase, transform.position, Quaternion.identity, this.transform);
-        var child = wallBase.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var item in child)
-        {
-            item.color = playerColor;
-        }
+        //var child = wallBase.GetComponentsInChildren<SpriteRenderer>();
+        //foreach (var item in child)
+        //{
+        //    item.color = playerColor;
+        //}
         //GameObject Earth = Instantiate(EarthBase, transform.position, Quaternion.identity, this.transform);
 
     }

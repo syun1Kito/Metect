@@ -14,8 +14,8 @@ public class Meteor : MonoBehaviour
 
 
     public PlayerController playerController { get; set; }
-    
 
+    TimeController timeController;
     //public int playerID { get; set; }
 
     // Start is called before the first frame update
@@ -28,7 +28,7 @@ public class Meteor : MonoBehaviour
 
         GetComponent<Transform>().localScale = new Vector3(size, size, 1);
 
-
+        timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
     }
 
     // Update is called once per frame
@@ -39,6 +39,11 @@ public class Meteor : MonoBehaviour
 
         if (transform.position.y < -5.5f)
         {
+            if (timeController.playable)
+            {
+                AudioController.Instance.PlaySE(AudioController.SE.clashToEarth);
+
+            }
             playerController.hpController.Damage(damage);
             playerController.meteorController.RemoveMeteor(this.gameObject);
             
@@ -48,7 +53,7 @@ public class Meteor : MonoBehaviour
     public void Damaged(int damage)
     {
         HP -= damage;
-     
+        AudioController.Instance.PlaySE(AudioController.SE.clashToMeteor);
         if (HP <= 0)
         {
             playerController.meteorController.RemoveMeteor(this.gameObject);

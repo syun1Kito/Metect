@@ -20,6 +20,8 @@ public class ButtonUIController : MonoBehaviour
     GameObject buttonUIBase;
     GameObject buttonUI;
 
+    string previousState;
+
     TimeController timeController;
 
     // Start is called before the first frame update
@@ -28,44 +30,51 @@ public class ButtonUIController : MonoBehaviour
 
         canvas = GameObject.Find("Canvas");
 
-        
-
         timeController = GetComponent<TimeController>();
+
+        //previousState = eventSystem.currentSelectedGameObject.name;
     }
 
     // Update is called once per frame
     void Update()
     {
-   
-
-        if (eventSystem!=null)
+        if (!timeController.playable)
         {
-            var state = eventSystem.currentSelectedGameObject.name;
-            switch (state)
+            if (eventSystem != null)
             {
-                case "Restart":
-                    animator.SetInteger("FinishButtonState", (int)ButtonState.Restart);
-                    break;
-                case "Title":
-                    animator.SetInteger("FinishButtonState", (int)ButtonState.Title);
-                    break;
-                default:
-                    break;
-            }
+                var state = eventSystem.currentSelectedGameObject.name;
+                if (state != previousState)
+                {
+                    AudioController.Instance.PlaySE(AudioController.SE.moveButton);
+                }
 
-            if (Input.GetButtonDown("Submit"))
-            {
                 switch (state)
                 {
                     case "Restart":
-                        Restart();
+                        animator.SetInteger("FinishButtonState", (int)ButtonState.Restart);
                         break;
                     case "Title":
-                        LoadTitle();
+                        animator.SetInteger("FinishButtonState", (int)ButtonState.Title);
                         break;
                     default:
                         break;
                 }
+
+                if (Input.GetButtonDown("Submit"))
+                {
+                    switch (state)
+                    {
+                        case "Restart":
+                            Restart();
+                            break;
+                        case "Title":
+                            LoadTitle();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                previousState = state;
             }
         }
     }

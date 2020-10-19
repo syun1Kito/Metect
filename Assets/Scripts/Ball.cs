@@ -39,23 +39,28 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < -5.5f || transform.position.y > 5.5f)
-        {
-            if (timeController.playable)
-            {
-                Respawn();
-            }
-            
-        }
+        Crash();
     }
 
+    public void Crash()
+    {
+        if (transform.position.y < -5.5f || transform.position.y > 5.5f)
+        {
+            AudioController.Instance.PlaySE(AudioController.SE.clashToEarth);
+            Respawn();
+        }
+    }
     public void Respawn()
     {
-        playerController.hpController.Damage(damageToPlayer);
-
-        ResetBall();
-
-
+        if (timeController.playable)
+        {
+            playerController.hpController.Damage(damageToPlayer);
+            ResetBall();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void ResetBall()
@@ -95,6 +100,24 @@ public class Ball : MonoBehaviour
         {
             hitCount++;
             playerController.ballController.CountHitSum();
+            switch (playerController.ballController.hitSum)
+            {
+                case 1:
+                    AudioController.Instance.PlaySE(AudioController.SE.hit1);
+                    break;
+                case 2:
+                    AudioController.Instance.PlaySE(AudioController.SE.hit2);
+                    break;
+                case 3:
+                    AudioController.Instance.PlaySE(AudioController.SE.hit3);
+                    break;
+                case 4:
+                    AudioController.Instance.PlaySE(AudioController.SE.hit4);
+                    break;
+                default:
+                    AudioController.Instance.PlaySE(AudioController.SE.hit5);
+                    break;
+            }
 
             other.gameObject.GetComponent<Meteor>().Damaged(damageToMeteor);
         }
@@ -118,7 +141,7 @@ public class Ball : MonoBehaviour
 
             other.gameObject.GetComponent<Meteor>().Damaged(damageToMeteor);
         }
-      
+
     }
 
 }

@@ -15,7 +15,7 @@ public class BallController : MonoBehaviour
     GameObject defaultBall;
 
     List<GameObject> ballList = new List<GameObject>();
-    int hitSum = 0;
+    public int hitSum { get; private set; } = 0;
     public int itemHitNum { get; set; } = 0;
     public bool isAllDestroing { get; set; } = false;
 

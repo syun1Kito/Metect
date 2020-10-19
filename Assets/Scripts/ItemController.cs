@@ -13,7 +13,7 @@ public class ItemController : MonoBehaviour
     }
 
     [SerializeField]
-    GameObject itemBase;
+    GameObject[] itemBase = null;
 
 
     // Start is called before the first frame update
@@ -43,7 +43,7 @@ public class ItemController : MonoBehaviour
 
     public void ItemSpawn(ItemType type)
     {
-        GameObject item = Instantiate(itemBase, itemBase.transform.position, Quaternion.identity);
+        GameObject item = Instantiate(itemBase[(int)type], itemBase[(int)type].transform.position, Quaternion.identity);
         item.GetComponent<Item>().itemType = type;
 
     }

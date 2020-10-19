@@ -36,8 +36,9 @@ public class MeteorController : MonoBehaviour
     public static float difficultyIncrease { get; private set; } = 0.25f;
 
     List<GameObject> meteorList = new List<GameObject>();
-    const int meteorKillDamage = 10; 
+    const int meteorKillDamage = 10;
 
+    TimeController timeController;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +47,8 @@ public class MeteorController : MonoBehaviour
 
         spawnParSecond = defaultSpawnParSecond;
         spawnInterval = 1 / spawnParSecond;
-        
+
+        timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
 
         //meteor = SpawnBall(ballBase, spawnPos);
         //rb = defaultBall.GetComponent<Rigidbody2D>();
@@ -99,6 +101,10 @@ public class MeteorController : MonoBehaviour
     {
         meteorList.Remove(meteor);
         Destroy(meteor);
+        if (timeController.playable)
+        {
+            AudioController.Instance.PlaySE(AudioController.SE.destroyMeteor);
+        }
     }
     public int RemoveAllMeteor()
     {

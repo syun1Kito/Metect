@@ -5,15 +5,13 @@ using UnityEngine;
 public class FlipperController : MonoBehaviour
 {
 
-    float initRote = 0;
-    float initX = 1.2f;
     float motorSpeed = 1000;
-    float hingeAngleLow = 20;
-    float hingeAngleUp = 30;
+    float hingeAngleLow = -5;
+    float hingeAngleUp = 50;
 
 
-    [SerializeField]
-    protected Sprite[] flippers = null;
+    //[SerializeField]
+    //protected Sprite[] flippers = null;
     //[SerializeField]
     // protected GameObject flipperLeftBase, flipperRightBase;
     [SerializeField]
@@ -21,7 +19,7 @@ public class FlipperController : MonoBehaviour
 
     HingeJoint2D HJLeft, HJRight;
 
-    TimeController timeController;
+    //TimeController timeController;
 
     public void Start()
     {
@@ -37,7 +35,7 @@ public class FlipperController : MonoBehaviour
 
         FlipperInit();
 
-        timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
+        //timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
 
     }
 
@@ -53,38 +51,38 @@ public class FlipperController : MonoBehaviour
     //    flipperRight.GetComponent<SpriteRenderer>().sprite = flippers[playerID * 2 + 1];
     //}
 
-    public void ChangeSprite(int playerID)
-    {
-        flipperLeft.GetComponentInChildren<SpriteRenderer>().sprite = flippers[playerID * 2];
-        flipperRight.GetComponentInChildren<SpriteRenderer>().sprite = flippers[playerID * 2 + 1];
-    }
+    //public void ChangeSprite(int playerID)
+    //{
+    //    flipperLeft.GetComponentInChildren<SpriteRenderer>().sprite = flippers[playerID * 2];
+    //    flipperRight.GetComponentInChildren<SpriteRenderer>().sprite = flippers[playerID * 2 + 1];
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        JointMotor2D motorLeft = HJLeft.motor;
-        JointMotor2D motorRight = HJRight.motor;
-        if (Input.GetButton("LFlip") && timeController.playable)
-        {            
-            motorLeft.motorSpeed = -motorSpeed;
-            HJLeft.motor = motorLeft;
-        }
-        else 
-        {
-            motorLeft.motorSpeed = motorSpeed;
-            HJLeft.motor = motorLeft;
-        }
+        //JointMotor2D motorLeft = HJLeft.motor;
+        //JointMotor2D motorRight = HJRight.motor;
+        //if (Input.GetButton("LFlip") && timeController.playable)
+        //{
+        //    motorLeft.motorSpeed = -motorSpeed;
+        //    HJLeft.motor = motorLeft;
+        //}
+        //else
+        //{
+        //    motorLeft.motorSpeed = motorSpeed;
+        //    HJLeft.motor = motorLeft;
+        //}
 
-        if (Input.GetButton("RFlip") && timeController.playable)
-        {
-            motorRight.motorSpeed = motorSpeed;
-            HJRight.motor = motorRight;
-        }
-        else
-        {
-            motorRight.motorSpeed = -motorSpeed;
-            HJRight.motor = motorRight;
-        }
+        //if (Input.GetButton("RFlip") && timeController.playable)
+        //{
+        //    motorRight.motorSpeed = motorSpeed;
+        //    HJRight.motor = motorRight;
+        //}
+        //else
+        //{
+        //    motorRight.motorSpeed = -motorSpeed;
+        //    HJRight.motor = motorRight;
+        //}
 
     }
 
@@ -110,4 +108,30 @@ public class FlipperController : MonoBehaviour
         HJRight.limits = angleRight;
     }
 
+    public void FlipLeft()
+    {
+        JointMotor2D motorLeft = HJLeft.motor;
+        motorLeft.motorSpeed = -motorSpeed;
+        HJLeft.motor = motorLeft;
+    }
+    public void FlipReleaseLeft()
+    {
+        JointMotor2D motorLeft = HJLeft.motor;
+        motorLeft.motorSpeed = motorSpeed;
+        HJLeft.motor = motorLeft;
+    }
+
+
+    public void FlipRight()
+    {
+        JointMotor2D motorRight = HJRight.motor;
+        motorRight.motorSpeed = motorSpeed;
+        HJRight.motor = motorRight;
+    }
+    public void FlipReleaseRight()
+    {
+        JointMotor2D motorRight = HJRight.motor;
+        motorRight.motorSpeed = -motorSpeed;
+        HJRight.motor = motorRight;
+    }
 }

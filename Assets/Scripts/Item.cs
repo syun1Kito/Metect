@@ -94,7 +94,7 @@ public class Item : MonoBehaviour
             affectTarget = other.gameObject.GetComponent<Ball>().playerController;
             Affect(affectTarget);
 
-
+            AudioController.Instance.PlaySE(AudioController.SE.item);
             Destroy(this.gameObject);
         }
     }

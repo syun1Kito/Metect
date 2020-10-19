@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     Vector3[] position = null;
 
     public PlayerController winner { get; set; } = null;
-   
+
 
     public PlayerController[] players { get; private set; }
     public ItemController itemController { get; private set; }
@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         if (GameInstance.Instance.PlayerNum == 0)
         {
             Debug.LogError("人数が正しくない");
@@ -62,11 +65,11 @@ public class GameManager : MonoBehaviour
 
     protected virtual void SpawnPlayers()
     {
-        
+
         players = new PlayerController[GameInstance.Instance.PlayerNum];
         for (int i = 0; i < GameInstance.Instance.PlayerNum; i++)
         {
-         
+
             players[i] = Instantiate(playerBase, position[i], Quaternion.identity);
             players[i].playerID = i;
             //players[i].transform.SetAsFirstSibling();
