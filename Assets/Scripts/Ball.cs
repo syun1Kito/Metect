@@ -26,6 +26,9 @@ public class Ball : MonoBehaviour
 
     TimeController timeController;
 
+    [SerializeField]
+    GameObject explosion;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,9 +47,14 @@ public class Ball : MonoBehaviour
 
     public void Crash()
     {
-        if (transform.position.y < -5.5f || transform.position.y > 5.5f)
+        if (transform.position.y < -4.5f || transform.position.y > 5.5f)
         {
             AudioController.Instance.PlaySE(AudioController.SE.clashToEarth);
+            //Particle
+            GameObject particle = Instantiate(explosion, transform.position, Quaternion.identity);
+            //float size = meteor.GetComponent<Meteor>().size;
+            //particle.transform.localScale = new Vector3(size, size, 1);
+
             Respawn();
         }
     }
@@ -78,14 +86,14 @@ public class Ball : MonoBehaviour
         if (!penetratable)
         {
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 0.5f);
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("ball"), LayerMask.NameToLayer("meteor"), true);
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("ball"+(playerController.playerID+1)), LayerMask.NameToLayer("meteor"), true);
             //this.gameObject.layer = LayerMask.NameToLayer("penetrationBall");
             penetratable = true;
 
             yield return new WaitForSeconds(time);
 
             sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
-            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("ball"), LayerMask.NameToLayer("meteor"), false);
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("ball"+(playerController.playerID+1)), LayerMask.NameToLayer("meteor"), false);
             //this.gameObject.layer = LayerMask.NameToLayer("ball");
             penetratable = false;
         }
@@ -120,6 +128,8 @@ public class Ball : MonoBehaviour
             }
 
             other.gameObject.GetComponent<Meteor>().Damaged(damageToMeteor);
+
+            
         }
         else if (layerName == "flipper")
         {

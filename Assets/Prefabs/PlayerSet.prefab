@@ -71,7 +71,9 @@ MonoBehaviour:
   hitCountPos: {x: 1.5, y: 3.5, z: 0}
   hpGaugeBase: {fileID: 2524411850836617479, guid: dcb0f14fa838dfa45a8da8a2f3eb7825,
     type: 3}
-  hpGaugePos: {x: 3.95, y: -3, z: 0}
+  hpGaugePos:
+  - {x: 3.9, y: -2.5, z: 0}
+  - {x: -3.9, y: -2.5, z: 0}
   ReductionTime: 1
 --- !u!114 &6124084950239448932
 MonoBehaviour:
@@ -119,6 +121,8 @@ MonoBehaviour:
   spawnPos: {x: 0, y: 6, z: 0}
   spawnRange: 2.5
   defaultSpawnParSecond: 0.8
+  explosion: {fileID: 3455873021457167295, guid: 1a4c703ff3add4848b282263711aaa63,
+    type: 3}
 --- !u!114 &-147139235095135374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfea2ede20a7d604180995ae55dc51b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
+  maxHP: 100
 --- !u!114 &7806299288405005011
 MonoBehaviour:
   m_ObjectHideFlags: 0

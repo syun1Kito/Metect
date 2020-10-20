@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 311418697}
   - component: {fileID: 311418696}
   - component: {fileID: 311418695}
+  - component: {fileID: 311418698}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311418694}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
@@ -285,6 +286,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &311418698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311418694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ebc2d7e980e1c489b12195f8ac2c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EnableMouse: 0
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,8 +457,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemBase:
   - {fileID: 2869706709048035045, guid: d271320ff835a1542a962d19f12fd135, type: 3}
-  - {fileID: 2869706709048035045, guid: d271320ff835a1542a962d19f12fd135, type: 3}
-  - {fileID: 2869706709048035045, guid: d271320ff835a1542a962d19f12fd135, type: 3}
+  - {fileID: 2869706709048035045, guid: 26d15e39da7c03b48b33a48d20fcccdc, type: 3}
+  - {fileID: 2869706709048035045, guid: c7d5b2fe2aa2b9543968a3535bf9570f, type: 3}
 --- !u!114 &597994629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,6 +475,7 @@ MonoBehaviour:
     type: 3}
   timerPos: {x: 0, y: 4, z: 0}
   speedUpInterval: 15
+  itemSpawnInterval: 15
 --- !u!114 &597994630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -870,7 +892,21 @@ MonoBehaviour:
   BGMClips:
   - {fileID: 8300000, guid: a62ec61b14156ef4a85ee920d36023db, type: 3}
   SEClips:
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: 114754b3c1dcfda43bc62a0da123413e, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
 --- !u!1 &2080662068
 GameObject:

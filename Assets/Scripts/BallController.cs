@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class BallController : MonoBehaviour
@@ -99,6 +100,7 @@ public class BallController : MonoBehaviour
         ball.playerController = GetComponent<PlayerController>();
         //ball.hpController = GetComponent<HPController>();
         ball.spawnPos = spawnPos;
+        ball.gameObject.layer = LayerMask.NameToLayer("ball" + (playerController.playerID+1));
 
         ballList.Add(spawnBall);
 

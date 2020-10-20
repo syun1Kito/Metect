@@ -26,17 +26,21 @@ public class MeteorController : MonoBehaviour
     float spawnInterval;
 
     public static float defaultSize = 1;
-    public static float defaultMoveSpeed = 1;
+    public static float defaultMoveSpeed = 1f;
     public static float defaultRotateSpeedLower = 20;
     public static float defaultRotateSpeedUpper = 80;
     public static int defaultHP = 1;
     public static int defaultDamage = 5;
 
-    public static float difficulty { get; private set; } = 1;
+    public static float difficulty;
+    float defaultDifficulty = 1;
     public static float difficultyIncrease { get; private set; } = 0.25f;
 
     List<GameObject> meteorList = new List<GameObject>();
     const int meteorKillDamage = 10;
+
+    [SerializeField]
+    GameObject explosion;
 
     TimeController timeController;
 
@@ -50,6 +54,7 @@ public class MeteorController : MonoBehaviour
 
         timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
 
+        difficulty = defaultDifficulty;
         //meteor = SpawnBall(ballBase, spawnPos);
         //rb = defaultBall.GetComponent<Rigidbody2D>();
 
@@ -98,7 +103,12 @@ public class MeteorController : MonoBehaviour
     }
 
     public void RemoveMeteor(GameObject meteor)
-    {
+    {       
+        //Particle
+        GameObject particle = Instantiate(explosion, meteor.transform.position, Quaternion.identity);
+        float size = meteor.GetComponent<Meteor>().size;
+        particle.transform.localScale = new Vector3(size, size, 1);
+
         meteorList.Remove(meteor);
         Destroy(meteor);
         if (timeController.playable)

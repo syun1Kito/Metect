@@ -21,6 +21,10 @@ public class Item : MonoBehaviour
 
     [SerializeField]
     int healAmount;
+
+    [SerializeField]
+    GameObject explosion;
+
     void Start()
     {
 
@@ -83,11 +87,16 @@ public class Item : MonoBehaviour
         target.hpController.Heal(healAmount);
     }
 
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         string layerName = LayerMask.LayerToName(other.gameObject.layer);
 
-        if (layerName == "ball")
+        if (layerName == "ball1" || layerName == "ball2")
         {
 
             //Debug.Log("ok");
@@ -95,6 +104,10 @@ public class Item : MonoBehaviour
             Affect(affectTarget);
 
             AudioController.Instance.PlaySE(AudioController.SE.item);
+
+            GameObject particle = Instantiate(explosion, this.transform.position, Quaternion.identity);
+            //particle.transform.localScale = new Vector3(size, size, 1);
+
             Destroy(this.gameObject);
         }
     }

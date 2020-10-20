@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,8 @@ public class TimeController : MonoBehaviour
     [SerializeField]
     int speedUpInterval = 15;
 
+    [SerializeField]
+    int itemSpawnInterval = 10;
 
     public bool isRunning { get; set; } = false;
     public bool playable { get; set; } = true;
@@ -59,8 +62,8 @@ public class TimeController : MonoBehaviour
 
         DifficultyChanger();
 
+        ItemSpawn();
 
-      
 
         oldSecond = realTime;
     }
@@ -85,20 +88,43 @@ public class TimeController : MonoBehaviour
 
         if ((int)realTime != (int)oldSecond)
         {
-           // Debug.Log(second% speedUpInterval);
+            // Debug.Log(second% speedUpInterval);
             if (second % speedUpInterval == 0)
             {
                 MeteorController.IncreaseDifficulty();
                 MeteorController.IncreaseSpawnParSecond();
             }
-
         }
+    }
 
+    public void ItemSpawn()
+    {
+        if ((int)realTime != (int)oldSecond)
+        {
+            if (second % itemSpawnInterval == 0)
+            {
+                int rand = UnityEngine.Random.Range(0, Enum.GetNames(typeof(ItemController.ItemType)).Length);
+                switch (rand)
+                {
+                    case (int)ItemController.ItemType.penetration:
+                        ItemController.Instance.ItemSpawn(ItemController.ItemType.penetration);
+                        break;
+                    case (int)ItemController.ItemType.allDestroy:
+                        ItemController.Instance.ItemSpawn(ItemController.ItemType.allDestroy);
+                        break;
+                    case (int)ItemController.ItemType.heal:
+                        ItemController.Instance.ItemSpawn(ItemController.ItemType.heal);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public void ToggleIsRunning()
     {
-        
+
         isRunning = !isRunning;
         if (isRunning)
         {

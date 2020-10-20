@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class Meteor : MonoBehaviour
 
     Rigidbody2D rb;
 
+    float deadLine = -4.5f;
 
     public PlayerController playerController { get; set; }
 
@@ -37,7 +36,7 @@ public class Meteor : MonoBehaviour
         rb.MovePosition(transform.position + Vector3.down * moveSpeed * Time.deltaTime);
         rb.MoveRotation(transform.localEulerAngles.z + rotateSpeed * Time.deltaTime);
 
-        if (transform.position.y < -5.5f)
+        if (transform.position.y < deadLine)
         {
             if (timeController.playable)
             {
@@ -64,18 +63,13 @@ public class Meteor : MonoBehaviour
     //{
     //    string layerName = LayerMask.LayerToName(other.gameObject.layer);
 
-        
+
     //    if (layerName == "ball")
     //    {
     //        HP--;
     //    }
 
-    //    if (HP<=0)
-    //    {
-    //        playerController.meteorController.RemoveMeteor(this.gameObject);
-    //    }
-
-
+      
     //}
 
     //private void OnTriggerEnter2D(Collider2D other)

@@ -68,7 +68,7 @@ public class PauseController : MonoBehaviour
 
         if (isPaused)
         {
-            Debug.Log(eventSystem.currentSelectedGameObject);
+
             if (eventSystem != null)
             {
                 var state = eventSystem.currentSelectedGameObject.name;

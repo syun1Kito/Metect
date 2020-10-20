@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
+    public static ItemController Instance { get; private set; }
 
     public enum ItemType 
     {
@@ -15,8 +16,10 @@ public class ItemController : MonoBehaviour
     [SerializeField]
     GameObject[] itemBase = null;
 
-
-    // Start is called before the first frame update
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
     }

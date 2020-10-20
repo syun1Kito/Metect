@@ -121,6 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageToPlayer: 10
   damageToMeteor: 1
+  explosion: {fileID: 3455873021457167295, guid: 1a4c703ff3add4848b282263711aaa63,
+    type: 3}
 --- !u!58 &1811735510414991375
 CircleCollider2D:
   m_ObjectHideFlags: 0

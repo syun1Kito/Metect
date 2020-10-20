@@ -9,7 +9,7 @@ public class PlayerUIController : MonoBehaviour
 
     GameObject canvas;
 
-
+    PlayerController playerController;
 
 
     [SerializeField]
@@ -26,7 +26,7 @@ public class PlayerUIController : MonoBehaviour
     [SerializeField]
     GameObject hpGaugeBase;
     [SerializeField]
-    Vector3 hpGaugePos;
+    Vector3[] hpGaugePos;
 
     GameObject hpGauge;
     Image greenGauge;
@@ -42,7 +42,7 @@ public class PlayerUIController : MonoBehaviour
     void Start()
     {
         canvas = GameObject.Find("Canvas");
-
+        playerController = GetComponent<PlayerController>();
 
         InitHitCount();
         InitHP();
@@ -83,8 +83,9 @@ public class PlayerUIController : MonoBehaviour
 
     public void InitHP()
     {
-        hpGauge = Instantiate(hpGaugeBase, transform.position + hpGaugePos, Quaternion.identity, canvas.transform);
+        hpGauge = Instantiate(hpGaugeBase, transform.position + hpGaugePos[playerController.playerID], Quaternion.identity, canvas.transform);
         hpGauge.transform.SetAsFirstSibling();
+        hpGauge.GetComponentInChildren<Text>().text = (playerController.playerID+1)+"P";
 
         greenGauge = hpGauge.transform.Find("GreenGauge").gameObject.GetComponent<Image>();
         redGauge = hpGauge.transform.Find("RedGauge").gameObject.GetComponent<Image>();
