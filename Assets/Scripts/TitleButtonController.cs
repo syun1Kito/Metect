@@ -9,8 +9,8 @@ public class TitleButtonController : MonoBehaviour
     public enum PauseState
     {
         Start,
-        Howto,
-        End,
+        HowtoPlay,
+        Close,
     }
 
     EventSystem eventSystem;
@@ -22,8 +22,7 @@ public class TitleButtonController : MonoBehaviour
     GameObject TitleButtonBase;
     GameObject TitleButton;
 
-    //TimeController timeController;
-
+    string previousState;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +34,7 @@ public class TitleButtonController : MonoBehaviour
 
         eventSystem = FindObjectOfType<EventSystem>();
         Debug.Log(eventSystem);
-        eventSystem.firstSelectedGameObject = (TitleButton.transform.Find("Start").gameObject);
+        eventSystem.firstSelectedGameObject = (TitleButton.transform.Find("Start/Start").gameObject);
 
         animator = TitleButton.GetComponentInChildren<Animator>();
 
@@ -45,21 +44,30 @@ public class TitleButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (eventSystem != null)
+        {
             var state = eventSystem.currentSelectedGameObject.name;
+            if (state != previousState)
+            {
+                AudioController.Instance.PlaySE(AudioController.SE.moveButton);
+            }
+
+            
             switch (state)
             {
                 case "Start":
                     animator.SetInteger("TitleState", (int)PauseState.Start);
                     break;
-                case "Howto":
-                    animator.SetInteger("TitleState", (int)PauseState.Howto);
+                case "HowtoPlay":
+                    animator.SetInteger("TitleState", (int)PauseState.HowtoPlay);
                     break;
-                case "End":
-                    animator.SetInteger("TitleState", (int)PauseState.End);
+                case "Close":
+                    animator.SetInteger("TitleState", (int)PauseState.Close);
                     break;
                 default:
                     break;
             }
+            Debug.Log(animator.GetInteger("TitleState"));
 
             if (Input.GetButtonDown("Submit"))
             {
@@ -68,27 +76,29 @@ public class TitleButtonController : MonoBehaviour
                     case "Start":
                         StartGame();
                         break;
-                    case "Howto":
-                        Howto();
+                    case "HowtoPlay":
+                        HowtoPlay();
                         break;
-                    case "End":
-                        EndGame();
+                    case "Close":
+                        CloseGame();
                         break;
                     default:
                         break;
                 }
             }
+            previousState = state;
+        }
     }
     public void StartGame()
     {
         SceneManager.LoadScene("Main");
     }
 
-    public void Howto()
+    public void HowtoPlay()
     {
         SceneManager.LoadScene("");
     }
-    public void EndGame()
+    public void CloseGame()
     {
         Application.Quit();
     }

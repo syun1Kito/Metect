@@ -150,7 +150,8 @@ public class PauseController : MonoBehaviour
     public void LoadTitle()
     {
         AudioController.Instance.PlaySE(AudioController.SE.pushButton);
-        SceneManager.LoadScene("");
+        Resume();
+        SceneManager.LoadScene("Title");
     }
 
     public void PauseInput()
