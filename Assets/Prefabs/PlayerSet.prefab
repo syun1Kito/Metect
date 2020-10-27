@@ -116,8 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878fc5154ecffa349b5ad2eecbf29158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meteorBase: {fileID: 5468239691957569479, guid: 5e97fd962dbc5c2438baa42c5920d62b,
-    type: 3}
+  meteorBase:
+  - {fileID: 5468239691957569479, guid: 0849dc6b93c31044c9af2ff44b8e02dd, type: 3}
+  - {fileID: 5468239691957569479, guid: 5e97fd962dbc5c2438baa42c5920d62b, type: 3}
   spawnPos: {x: 0, y: 6, z: 0}
   spawnRange: 2.5
   defaultSpawnParSecond: 0.8

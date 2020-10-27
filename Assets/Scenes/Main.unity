@@ -426,8 +426,8 @@ MonoBehaviour:
   playerBase: {fileID: 4685172140822032674, guid: 8894edf195814e34b9e45ac3344cc61a,
     type: 3}
   position:
-  - {x: -4.4, y: 0, z: 0}
-  - {x: 4.4, y: 0, z: 0}
+  - {x: -4.47, y: 0, z: 0}
+  - {x: 4.47, y: 0, z: 0}
 --- !u!4 &597994627
 Transform:
   m_ObjectHideFlags: 0
@@ -792,7 +792,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -893,21 +893,38 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a62ec61b14156ef4a85ee920d36023db, type: 3}
   SEClips:
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: 114754b3c1dcfda43bc62a0da123413e, type: 3}
+  - {fileID: 8300000, guid: 114754b3c1dcfda43bc62a0da123413e, type: 3}
+  - {fileID: 8300000, guid: 114754b3c1dcfda43bc62a0da123413e, type: 3}
+  - {fileID: 8300000, guid: e73cf5ebd5a1132458dbe9d2a83a7b24, type: 3}
+  - {fileID: 8300000, guid: c27f1ebfebe135941b3521548c26075d, type: 3}
+  - {fileID: 8300000, guid: d0dcbfb90d42e9e42bcb56e8098b936c, type: 3}
+  - {fileID: 8300000, guid: c27f1ebfebe135941b3521548c26075d, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  - {fileID: 8300000, guid: 05392dbaf8c10df4b8e1e1a42f13da13, type: 3}
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
   - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
-  - {fileID: 8300000, guid: b3177a850bb6ce94f8fbe0f37fcfdb50, type: 3}
+  volume:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0.8
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0.5
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
 --- !u!1 &2080662068
 GameObject:
   m_ObjectHideFlags: 0

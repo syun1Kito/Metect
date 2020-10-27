@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ public class AudioController : MonoBehaviour
 
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] BGMClips, SEClips;
+    [SerializeField,Range(0, 1)] float[] volume ;
 
     void Awake()
     {
@@ -56,7 +58,7 @@ public class AudioController : MonoBehaviour
 
     public void PlaySE(SE num)
     {
-        audioSource.PlayOneShot(SEClips[(int)num]);
+        audioSource.PlayOneShot(SEClips[(int)num],volume[(int)num]);
     }
 
     public void PlayBGM(BGM num, bool loop)

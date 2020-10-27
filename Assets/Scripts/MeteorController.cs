@@ -8,7 +8,7 @@ public class MeteorController : MonoBehaviour
     PlayerController playerController;
 
     [SerializeField]
-    GameObject meteorBase;
+    GameObject[] meteorBase;
 
     [SerializeField]
     Vector3 spawnPos;
@@ -25,7 +25,7 @@ public class MeteorController : MonoBehaviour
     public static float spawnParSecondIncrease { get; private set; } = 0.1f;
     float spawnInterval;
 
-    public static float defaultSize = 1;
+    public static float defaultSize = 0.35f;
     public static float defaultMoveSpeed = 1f;
     public static float defaultRotateSpeedLower = 20;
     public static float defaultRotateSpeedUpper = 80;
@@ -85,7 +85,7 @@ public class MeteorController : MonoBehaviour
 
     public GameObject SpawnMeteor(Vector3 spawnPos,PlayerController from,float size,float moveSpeed,int HP,int damage)
     {
-        GameObject meteorObj = Instantiate(meteorBase, transform.position + spawnPos, Quaternion.identity, this.transform);
+        GameObject meteorObj = Instantiate(meteorBase[from.playerID], transform.position + spawnPos, Quaternion.identity, this.transform);
         Meteor meteor = meteorObj.GetComponent<Meteor>();
 
         meteor.playerController = GetComponent<PlayerController>();
@@ -94,7 +94,7 @@ public class MeteorController : MonoBehaviour
         meteor.HP = HP;
         meteor.damage = damage;
         meteor.rotateSpeed = Random.Range(defaultRotateSpeedLower,defaultRotateSpeedUpper);
-        meteorObj.GetComponent<SpriteRenderer>().color = from.playerColor;
+        //meteorObj.GetComponent<SpriteRenderer>().color = from.playerColor;
         //meteor.GetComponent<Meteor>().hpController = hpController;
 
         meteorList.Add(meteorObj);
