@@ -85,7 +85,14 @@ public class PlayerUIController : MonoBehaviour
     {
         hpGauge = Instantiate(hpGaugeBase, transform.position + hpGaugePos[playerController.playerID], Quaternion.identity, canvas.transform);
         hpGauge.transform.SetAsFirstSibling();
-        hpGauge.GetComponentInChildren<Text>().text = (playerController.playerID+1)+"P";
+        if (GameInstance.Instance.gameType == GameInstance.GameType._1PvsCOM && playerController.playerID ==1)
+        {
+            hpGauge.GetComponentInChildren<Text>().text = "CP";
+        }
+        else
+        {
+            hpGauge.GetComponentInChildren<Text>().text = (playerController.playerID + 1) + "P";
+        }
 
         greenGauge = hpGauge.transform.Find("GreenGauge").gameObject.GetComponent<Image>();
         redGauge = hpGauge.transform.Find("RedGauge").gameObject.GetComponent<Image>();

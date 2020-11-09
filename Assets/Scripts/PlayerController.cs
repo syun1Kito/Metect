@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     //[SerializeField]
     //GameObject EarthBase = null;
 
-    void Start()
+    public void Start()
     {
         playerColor = PlayerColor[playerID];
 

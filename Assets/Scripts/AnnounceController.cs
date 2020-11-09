@@ -54,5 +54,6 @@ public class AnnounceController : MonoBehaviour
     public void Finish()
     {
         animator.SetTrigger("Finish");
+        AudioController.Instance.PlaySE(AudioController.SE.end);
     }
 }

@@ -29,7 +29,7 @@ public class TimeController : MonoBehaviour
     int itemSpawnInterval = 10;
 
     public bool isRunning { get; set; } = false;
-    public bool playable { get; set; } = true;
+    public bool playable { get; set; } = false;
 
     AnnounceController announceController;
 

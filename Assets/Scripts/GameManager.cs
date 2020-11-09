@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     PlayerController playerBase = null;
     [SerializeField]
+    PlayerController computerBase = null;
+
+    [SerializeField]
     Vector3[] position = null;
 
     public PlayerController winner { get; set; } = null;
@@ -25,8 +28,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Screen.SetResolution(1920, 1080, true, 60);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        Debug.Log(GameInstance.Instance.PlayerNum);
 
         if (GameInstance.Instance.PlayerNum == 0)
         {
@@ -67,18 +73,38 @@ public class GameManager : MonoBehaviour
     {
 
         players = new PlayerController[GameInstance.Instance.PlayerNum];
-        for (int i = 0; i < GameInstance.Instance.PlayerNum; i++)
-        {
 
-            players[i] = Instantiate(playerBase, position[i], Quaternion.identity);
-            players[i].playerID = i;
-            //players[i].transform.SetAsFirstSibling();
+        switch (GameInstance.Instance.gameType)
+        {
+            case GameInstance.GameType.none:
+                break;
+            case GameInstance.GameType._1PvsCOM:
+                players[0] = Instantiate(playerBase, position[0], Quaternion.identity);
+                players[0].playerID = 0;
+
+                players[1] = Instantiate(computerBase, position[1], Quaternion.identity);
+                players[1].playerID = 1;
+
+                break;
+            case GameInstance.GameType._1Pvs2P:
+                for (int i = 0; i < GameInstance.Instance.PlayerNum; i++)
+                {
+
+                    players[i] = Instantiate(playerBase, position[i], Quaternion.identity);
+                    players[i].playerID = i;
+                    //players[i].transform.SetAsFirstSibling();
+                }
+
+                break;
+            default:
+                break;
         }
+
     }
     //public void Respawn(int playerID)
     //{
     //    Players[playerID].transform.position = position[Random.Range(0, position.Length)];
     //}
 
-   
+
 }

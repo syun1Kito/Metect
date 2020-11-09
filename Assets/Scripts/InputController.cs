@@ -5,11 +5,11 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     KeyNameList keyname;
-    PlayerController playerController;
+    protected PlayerController playerController;
     PauseController pauseController;
-    TimeController timeController;
+    protected TimeController timeController;
 
-    void Start()
+    protected virtual void Start()
     {
         playerController = GetComponent<PlayerController>();
         keyname = new KeyNameList(playerController.playerID);
@@ -18,19 +18,20 @@ public class InputController : MonoBehaviour
         timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         InputHandle();
+        
+    }
+
+    protected virtual void InputHandle()
+    {
+        FlipperInput();
         PauseInput();
     }
 
-    public void InputHandle()
-    {
-        FlipperInput();
-    }
 
-
-    public void FlipperInput()
+    protected virtual void FlipperInput()
     {
         if (Input.GetButton(keyname.LFlip) && timeController.playable)
         {
@@ -40,6 +41,7 @@ public class InputController : MonoBehaviour
         {
             playerController.flipperController.FlipReleaseLeft();
         }
+
         if (Input.GetButton(keyname.RFlip) && timeController.playable)
         {
             playerController.flipperController.FlipRight();
@@ -49,7 +51,7 @@ public class InputController : MonoBehaviour
             playerController.flipperController.FlipReleaseRight();
         }
 
-        if (Input.GetButtonDown(keyname.LFlip) || Input.GetButtonDown(keyname.RFlip))
+        if ((Input.GetButtonDown(keyname.LFlip) || Input.GetButtonDown(keyname.RFlip)) && timeController.playable)
         {
             AudioController.Instance.PlaySE(AudioController.SE.flip);
         }
@@ -77,4 +79,6 @@ public class KeyNameList
         Pause = "Pause" + t;
     }
     public readonly string LFlip, RFlip, Horizontal, Vertical, Submit, Cancel, Pause;
+
+
 }

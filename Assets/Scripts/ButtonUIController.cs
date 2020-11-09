@@ -85,7 +85,7 @@ public class ButtonUIController : MonoBehaviour
     }
     public void LoadTitle()
     {
-        SceneManager.LoadScene("");
+        SceneManager.LoadScene("Title");
     }
 
 

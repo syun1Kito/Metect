@@ -21,7 +21,7 @@ public class Ball : MonoBehaviour
     int damageToMeteor = 0;
 
 
-    bool penetratable = false;
+    bool penetratable;
     bool isBaseBall = true;
 
     TimeController timeController;
@@ -37,6 +37,10 @@ public class Ball : MonoBehaviour
         //cc = GetComponent<CircleCollider2D>();
 
         timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("ball" + (playerController.playerID + 1)), LayerMask.NameToLayer("meteor"), false);
+        penetratable = false;
     }
 
     // Update is called once per frame

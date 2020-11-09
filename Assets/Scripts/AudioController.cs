@@ -9,7 +9,7 @@ public class AudioController : MonoBehaviour
     public enum BGM
     {
         mainBGM,
-        endBGM,
+        
     }
     public enum SE
     {
@@ -29,6 +29,7 @@ public class AudioController : MonoBehaviour
         hit3,
         hit4,
         hit5,
+        end,
     }
 
     [SerializeField] AudioSource audioSource;

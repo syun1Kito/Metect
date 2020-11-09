@@ -45,6 +45,8 @@ public class AnnounceFunction : MonoBehaviour
         {
             animator.SetTrigger("Draw");
         }
+
+
     }
 
     public void DisplayButton()
