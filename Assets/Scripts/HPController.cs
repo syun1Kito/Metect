@@ -8,32 +8,10 @@ public class HPController : MonoBehaviour
 {
 
 
-    [SerializeField]
-    int maxHP;
+    public int maxHP { get; set; }
     int HP;
 
-    //[SerializeField]
-    //HPGauge hpGauge; 
-
-
-    //[SerializeField]
-    //Image greenGauge;
-    //[SerializeField]
-    //Image redGauge;
-
-    //[SerializeField]
-    //HPController hpController;
-
-    //Tween redGaugeTween;
-
-    //[SerializeField]
-    //GameObject hpGaugeBase;
-    //GameObject hpGauge;
-
-    //[SerializeField]
-    //Vector3 hpGaugePos;
-
-
+   
     PlayerController playerController;
     GameObject gameManager;
     TimeController timeController;
@@ -48,17 +26,6 @@ public class HPController : MonoBehaviour
         gameManager = GameObject.Find("GameManager");
         timeController = gameManager.GetComponent<TimeController>();
         announceController = gameManager.GetComponent<AnnounceController>();
-
-        //canvas = GameObject.Find("Canvas");
-        //hpGauge = Instantiate(hpGaugeBase, transform.position + hpGaugePos,Quaternion.identity,canvas.transform);
-
-
-        //greenGauge = hpGauge.transform.Find("GreenGauge").gameObject.GetComponent<Image>();
-        //redGauge = hpGauge.transform.Find("RedGauge").gameObject.GetComponent<Image>();
-
-        //greenGauge.fillAmount = 1;
-        //redGauge.fillAmount = 1;
-
     }
 
     void Update()
@@ -67,6 +34,8 @@ public class HPController : MonoBehaviour
         {
             timeController.TogglePlayable();
             announceController.Finish();
+
+            Debug.Log(timeController.Timer());
         }
 
         if (!timeController.playable && HP > 0)

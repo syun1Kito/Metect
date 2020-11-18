@@ -8,10 +8,12 @@ public class MeteorController : MonoBehaviour
     PlayerController playerController;
 
     [SerializeField]
-    GameObject[] meteorBase;
+    GameObject[] meteorBase = null;
 
     [SerializeField]
-    Vector3 spawnPos;
+    Vector3 spawnPosY;
+
+    public Vector3 deadLine;
     public Vector3 randomPos { get; private set; }
 
     [SerializeField]
@@ -19,8 +21,8 @@ public class MeteorController : MonoBehaviour
     //GameObject meteor;
     //Rigidbody2D rb;
 
-    [SerializeField]
-    float defaultSpawnParSecond = 1f;
+    //[SerializeField]
+    //float defaultSpawnParSecond = 1f;
     public static float spawnParSecond { get; private set; }
     public static float spawnParSecondIncrease { get; private set; } = 0.1f;
     float spawnInterval;
@@ -31,6 +33,8 @@ public class MeteorController : MonoBehaviour
     public static float defaultRotateSpeedUpper = 80;
     public static int defaultHP = 1;
     public static int defaultDamage = 5;
+    public static int defaultWeight = 1;
+
 
     public static float difficulty;
     float defaultDifficulty = 1;
@@ -48,12 +52,12 @@ public class MeteorController : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
-
-        spawnParSecond = defaultSpawnParSecond;
-        spawnInterval = 1 / spawnParSecond;
-
         timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
 
+        spawnParSecond = timeController.defaultSpawnPerSecond;
+        spawnInterval = 1 / spawnParSecond;
+
+        
         difficulty = defaultDifficulty;
         //meteor = SpawnBall(ballBase, spawnPos);
         //rb = defaultBall.GetComponent<Rigidbody2D>();
@@ -66,16 +70,16 @@ public class MeteorController : MonoBehaviour
     {
         spawnInterval -= Time.deltaTime;
 
-        randomPos = spawnPos + new Vector3(Random.Range(-spawnRange, spawnRange), 0, 0);
+        randomPos = spawnPosY + new Vector3(Random.Range(-spawnRange, spawnRange), 0, 0);
 
         if (Input.GetKeyDown(KeyCode.Space)) 
         {
-            SpawnMeteor(randomPos,playerController,defaultSize,defaultMoveSpeed * difficulty, defaultHP,defaultDamage);
+            SpawnMeteor(playerController,Meteor.MeteorType.normalMeteor);
         }
 
         if (spawnInterval<0) 
         {
-            SpawnMeteor(randomPos,playerController,defaultSize,defaultMoveSpeed * difficulty,defaultHP,defaultDamage);
+            SpawnMeteor(playerController, Meteor.MeteorType.normalMeteor);
             spawnInterval = 1/spawnParSecond;
         }
 
@@ -83,19 +87,52 @@ public class MeteorController : MonoBehaviour
     }
 
 
-    public GameObject SpawnMeteor(Vector3 spawnPos,PlayerController from,float size,float moveSpeed,int HP,int damage)
+    //public GameObject SpawnMeteor(Vector3 spawnPos,PlayerController from,float size,float moveSpeed,int HP,int damage)
+    //{
+    //    GameObject meteorObj = Instantiate(meteorBase[from.playerID], transform.position + spawnPos, Quaternion.identity, this.transform);
+    //    Meteor meteor = meteorObj.GetComponent<Meteor>();
+
+    //    meteor.playerController = GetComponent<PlayerController>();
+    //    meteor.size = size;
+    //    meteor.moveSpeed = moveSpeed;
+    //    meteor.HP = HP;
+    //    meteor.damage = damage;
+    //    meteor.rotateSpeed = Random.Range(defaultRotateSpeedLower,defaultRotateSpeedUpper);
+    //    //meteorObj.GetComponent<SpriteRenderer>().color = from.playerColor;
+    //    //meteor.GetComponent<Meteor>().hpController = hpController;
+
+    //    meteorList.Add(meteorObj);
+
+    //    return meteorObj;
+    //}
+
+    public GameObject SpawnMeteor(PlayerController from,Meteor.MeteorType meteorType)
     {
-        GameObject meteorObj = Instantiate(meteorBase[from.playerID], transform.position + spawnPos, Quaternion.identity, this.transform);
+        GameObject meteorObj = Instantiate(meteorBase[from.playerID], transform.position + randomPos, Quaternion.identity, this.transform);
         Meteor meteor = meteorObj.GetComponent<Meteor>();
 
         meteor.playerController = GetComponent<PlayerController>();
-        meteor.size = size;
-        meteor.moveSpeed = moveSpeed;
-        meteor.HP = HP;
-        meteor.damage = damage;
-        meteor.rotateSpeed = Random.Range(defaultRotateSpeedLower,defaultRotateSpeedUpper);
-        //meteorObj.GetComponent<SpriteRenderer>().color = from.playerColor;
-        //meteor.GetComponent<Meteor>().hpController = hpController;
+                
+        switch (meteorType)
+        {
+            case Meteor.MeteorType.none:
+                meteor.SetParameter(0, 0, 0, 0, 0, 0);
+                break;
+            case Meteor.MeteorType.normalMeteor:
+                meteor.SetParameter(defaultSize, defaultMoveSpeed * difficulty, Random.Range(defaultRotateSpeedLower, defaultRotateSpeedUpper), defaultHP, defaultDamage, defaultWeight);
+                break;
+            case Meteor.MeteorType.bigMeteor:
+                meteor.SetParameter(defaultSize * 2, defaultMoveSpeed * difficulty, Random.Range(defaultRotateSpeedLower, defaultRotateSpeedUpper), defaultHP * 3, defaultDamage * 3, defaultWeight * 3);
+                break;
+            case Meteor.MeteorType.quickMeteor:
+                meteor.SetParameter(defaultSize, defaultMoveSpeed * 3 * difficulty, Random.Range(defaultRotateSpeedLower, defaultRotateSpeedUpper), defaultHP, defaultDamage * 2, defaultWeight * 2);
+                break;
+            case Meteor.MeteorType.bigQuickMeteor:
+                meteor.SetParameter(defaultSize * 3, defaultMoveSpeed * 2 * difficulty, Random.Range(defaultRotateSpeedLower, defaultRotateSpeedUpper), defaultHP * 3, defaultDamage * 3, defaultWeight * 3);
+                break;
+            default:
+                break;
+        }
 
         meteorList.Add(meteorObj);
 
@@ -132,11 +169,54 @@ public class MeteorController : MonoBehaviour
 
     public static void IncreaseDifficulty() 
     {
-        MeteorController.difficulty += MeteorController.difficultyIncrease;
+        difficulty += difficultyIncrease;
     }
 
     public static void IncreaseSpawnParSecond()
     {
-        MeteorController.spawnParSecond += MeteorController.spawnParSecondIncrease;
+        spawnParSecond += spawnParSecondIncrease;
+    }
+
+    public MeteorWeight CalcMeteorWeight()
+    {
+        float tmpLeft = 0;
+        float tmpRight = 0;
+
+        foreach (GameObject meteor in meteorList)
+        {
+            Meteor tmpMeteor = meteor.GetComponent<Meteor>();
+            if (meteor.transform.position.x < transform.position.x)
+            {
+                tmpLeft += tmpMeteor.weight * (((spawnPosY.y - deadLine.y) - (meteor.transform.position.y - deadLine.y))/(spawnPosY.y - deadLine.y));
+            }
+            else
+            {
+                tmpRight += tmpMeteor.weight * (((spawnPosY.y - deadLine.y) - (meteor.transform.position.y - deadLine.y)) / (spawnPosY.y - deadLine.y));
+            }
+        }
+        return new MeteorWeight(playerController,tmpLeft, tmpRight);
+    }
+}
+
+public class MeteorWeight
+{
+    PlayerController playerController;
+    float leftWeight, rightWeight,allWeight;
+
+    public MeteorWeight(PlayerController playerController,float leftWeight,float rightWeight)
+    {
+        this.playerController = playerController;
+        this.leftWeight = leftWeight;
+        this.rightWeight = rightWeight;
+        this.allWeight = leftWeight + rightWeight;
+    }
+
+    public bool IsDangerLeft()
+    {
+        return (leftWeight > rightWeight) ? true : false;   
+    }
+    public override string ToString()
+    {
+        return  (playerController.playerID+1)+"P (" + leftWeight.ToString("f2") + "," + rightWeight.ToString("f2") + ") " + allWeight.ToString("f2") ;
     }
 }

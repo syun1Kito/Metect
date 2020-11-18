@@ -85,6 +85,7 @@ public class ButtonUIController : MonoBehaviour
     }
     public void LoadTitle()
     {
+        GameInstance.DestroyInstance();
         SceneManager.LoadScene("Title");
     }
 

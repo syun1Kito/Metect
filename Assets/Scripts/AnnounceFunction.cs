@@ -21,6 +21,7 @@ public class AnnounceFunction : MonoBehaviour
     public void StartGame()
     {
         gameManagerObj.GetComponent<TimeController>().ToggleIsRunning();
+        gameManager.pauseController.pauseable = true;
     }
 
     public void DisplayResult()

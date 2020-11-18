@@ -2,15 +2,25 @@
 
 public class Meteor : MonoBehaviour
 {
+
+    public enum MeteorType
+    {
+        none = 0,
+        normalMeteor = 2,
+        bigMeteor = 4,
+        quickMeteor = 5,
+        bigQuickMeteor = 6,
+    }
     public float size { get; set; }
     public float moveSpeed { get; set; }
     public float rotateSpeed { get; set; }
     public int HP { get; set; }
     public int damage { get; set; }
+    public int weight { get; set; }
 
     Rigidbody2D rb;
 
-    float deadLine = -4.5f;
+    //public float deadLine { get; private set; }
 
     public PlayerController playerController { get; set; }
 
@@ -21,13 +31,15 @@ public class Meteor : MonoBehaviour
     void Start()
     {
 
-        //speed = 10;
+        
 
         rb = GetComponent<Rigidbody2D>();
 
         GetComponent<Transform>().localScale = new Vector3(size, size, 1);
 
         timeController = GameObject.Find("GameManager").GetComponent<TimeController>();
+
+        //deadLine = -4.5f;
     }
 
     // Update is called once per frame
@@ -36,7 +48,7 @@ public class Meteor : MonoBehaviour
         rb.MovePosition(transform.position + Vector3.down * moveSpeed * Time.deltaTime);
         rb.MoveRotation(transform.localEulerAngles.z + rotateSpeed * Time.deltaTime);
 
-        if (transform.position.y < deadLine)
+        if (transform.position.y < playerController.meteorController.deadLine.y)
         {
             if (timeController.playable)
             {
@@ -57,6 +69,16 @@ public class Meteor : MonoBehaviour
         {
             playerController.meteorController.RemoveMeteor(this.gameObject);
         }
+    }
+
+    public void SetParameter(float size,float moveSpeed,float rotateSpeed,int HP,int damage,int weight)
+    {
+        this.size = size;
+        this.moveSpeed = moveSpeed;
+        this.rotateSpeed = rotateSpeed;
+        this.HP = HP;
+        this.damage = damage;
+        this.weight = weight;
     }
 
     //private void OnCollisionEnter2D(Collision2D other)

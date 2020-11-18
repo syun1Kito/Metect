@@ -59,7 +59,7 @@ public class InputController : MonoBehaviour
 
     public void PauseInput()
     {
-        if (Input.GetButtonDown(keyname.Pause) && timeController.isRunning && timeController.playable)
+        if (Input.GetButtonDown(keyname.Pause) && pauseController.pauseable)
         {
             pauseController.PauseInput();
         }

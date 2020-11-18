@@ -22,14 +22,15 @@ public class PauseController : MonoBehaviour
 
     //public static bool isPaused = false;
     bool isPaused = false;
+    public bool pauseable { set; get; } = false;
 
     [SerializeField]
-    GameObject pauseUIBase;
+    GameObject pauseUIBase = null;
     GameObject pauseUI;
 
     string previousState;
 
-    //TimeController timeController;
+    TimeController timeController;
 
     // Start is called before the first frame update
     void Start()
@@ -47,24 +48,18 @@ public class PauseController : MonoBehaviour
         animator = pauseUI.GetComponentInChildren<Animator>();
 
         //previousState = eventSystem.currentSelectedGameObject.name;
-        //timeController = GetComponent<TimeController>();
+        timeController = GetComponent<TimeController>();
         animator.SetBool("PauseVisible", false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetButtonDown("Pause") && timeController.isRunning && timeController.playable)
-        //{
-        //    if (isPaused)
-        //    {
-        //        Resume();
-        //    }
-        //    else
-        //    {
-        //        Pause();
-        //    }
-        //}
+
+        if (Input.GetButtonDown("Pause") && pauseable)
+        {
+            PauseInput();
+        }
 
         if (isPaused)
         {
@@ -119,9 +114,10 @@ public class PauseController : MonoBehaviour
         //eventSystem.SetSelectedGameObject(pauseUI.transform.Find("PausePanel/Resume").gameObject);
         //pauseUI.SetActive(false);
         animator.SetBool("PauseVisible", false);
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
+        timeController.ToggleIsRunning();
         isPaused = false;
-        AudioController.Instance.PlaySE(AudioController.SE.exit);
+        //AudioController.Instance.PlaySE(AudioController.SE.exit);
     }
 
     public void Pause()
@@ -136,7 +132,8 @@ public class PauseController : MonoBehaviour
         animator.SetBool("PauseVisible", true);
         GameObject select = pauseUI.transform.Find("PausePanel/Resume").gameObject;
         eventSystem.SetSelectedGameObject(select);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        timeController.ToggleIsRunning();
         isPaused = true;
 
     }
@@ -151,20 +148,24 @@ public class PauseController : MonoBehaviour
     {
         AudioController.Instance.PlaySE(AudioController.SE.pushButton);
         Resume();
+        GameInstance.DestroyInstance();
         SceneManager.LoadScene("Title");
     }
 
     public void PauseInput()
     {
-        if (isPaused)
-        {
-            AudioController.Instance.PlaySE(AudioController.SE.exit);
-            Resume();
-        }
-        else
-        {
-            AudioController.Instance.PlaySE(AudioController.SE.enter);
-            Pause();
-        }
+
+            if (isPaused)
+            {
+                AudioController.Instance.PlaySE(AudioController.SE.exit);
+                Resume();
+            }
+            else
+            {
+                AudioController.Instance.PlaySE(AudioController.SE.enter);
+                Pause();
+            }
+            Debug.Log(isPaused);
+        
     }
 }

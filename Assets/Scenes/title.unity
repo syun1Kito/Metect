@@ -479,6 +479,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleButtonBase: {fileID: 8003797030671565529, guid: 85cc5d0b268f6b3448158c12f15e43e7,
     type: 3}
+  titlePanelBase: {fileID: 2108233121858644658, guid: d5300831b5d529545be97704afb9678c,
+    type: 3}
   howtoButtonBase: {fileID: 9151408635631429131, guid: 792d5d1f84bafd541bc83889dc7e8df1,
     type: 3}
 --- !u!4 &1384572062

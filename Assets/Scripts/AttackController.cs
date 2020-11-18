@@ -12,28 +12,26 @@ public class AttackController : MonoBehaviour
         bigMeteor = 4,
         quickMeteor = 5,
         bigQuickMeteor = 6,
-        doubleMeteor,
-        tripleMeteor,
     }
 
     
     //GameObject gameManager;
     PlayerController[] Players;
 
-    float dfSize;
-    float dfMSpeed;
-    int dfHP;
-    int dfDamage;
+    //float dfSize;
+    //float dfMSpeed;
+    //int dfHP;
+    //int dfDamage;
 
     // Start is called before the first frame update
     void Start()
     {   
         Players = GameObject.Find("GameManager").GetComponent<GameManager>().players;
 
-        dfSize = MeteorController.defaultSize;
-        dfMSpeed = MeteorController.defaultMoveSpeed;
-        dfHP = MeteorController.defaultHP;
-        dfDamage = MeteorController.defaultDamage;
+        //dfSize = MeteorController.defaultSize;
+        //dfMSpeed = MeteorController.defaultMoveSpeed;
+        //dfHP = MeteorController.defaultHP;
+        //dfDamage = MeteorController.defaultDamage;
     }
 
     // Update is called once per frame
@@ -75,20 +73,20 @@ public class AttackController : MonoBehaviour
 
     public void Normal(PlayerController from,PlayerController to)
     {
-        to.meteorController.SpawnMeteor(to.meteorController.randomPos, from,dfSize,dfMSpeed * MeteorController.difficulty,dfHP,dfDamage);
+        to.meteorController.SpawnMeteor(from,Meteor.MeteorType.normalMeteor);
     }
 
     public void Big(PlayerController from, PlayerController to)
     {
-        to.meteorController.SpawnMeteor(to.meteorController.randomPos, from, dfSize * 2, dfMSpeed * MeteorController.difficulty, dfHP * 3, dfDamage * 3);
+        to.meteorController.SpawnMeteor(from, Meteor.MeteorType.bigMeteor);
     }
 
     public void Quick(PlayerController from, PlayerController to)
     {
-        to.meteorController.SpawnMeteor(to.meteorController.randomPos, from, dfSize , dfMSpeed * 3 * MeteorController.difficulty, dfHP , dfDamage * 2);
+        to.meteorController.SpawnMeteor(from, Meteor.MeteorType.quickMeteor);
     }
     public void BigQuick(PlayerController from, PlayerController to)
     {
-        to.meteorController.SpawnMeteor(to.meteorController.randomPos, from, dfSize * 3, dfMSpeed * 2 * MeteorController.difficulty, dfHP * 3, dfDamage * 3);
+        to.meteorController.SpawnMeteor(from, Meteor.MeteorType.bigQuickMeteor);
     }
 }

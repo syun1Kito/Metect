@@ -119,9 +119,9 @@ MonoBehaviour:
   meteorBase:
   - {fileID: 5468239691957569479, guid: 0849dc6b93c31044c9af2ff44b8e02dd, type: 3}
   - {fileID: 5468239691957569479, guid: 5e97fd962dbc5c2438baa42c5920d62b, type: 3}
-  spawnPos: {x: 0, y: 6, z: 0}
+  spawnPosY: {x: 0, y: 6, z: 0}
+  deadLine: {x: 0, y: -4.5, z: 0}
   spawnRange: 2.5
-  defaultSpawnParSecond: 0.8
   explosion: {fileID: 3455873021457167295, guid: 1a4c703ff3add4848b282263711aaa63,
     type: 3}
 --- !u!114 &-147139235095135374
@@ -136,7 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfea2ede20a7d604180995ae55dc51b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
 --- !u!114 &7806299288405005011
 MonoBehaviour:
   m_ObjectHideFlags: 0

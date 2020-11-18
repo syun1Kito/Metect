@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using System;
 
 public class TitleButtonController : MonoBehaviour
 {
@@ -28,6 +29,13 @@ public class TitleButtonController : MonoBehaviour
         _7Page,
     }
 
+    public enum GameLength
+    {
+        Short,
+        Normal,
+    }
+
+
     EventSystem eventSystem;
     GameObject canvas;
     public Animator buttonAnimator { get; private set; }
@@ -36,6 +44,11 @@ public class TitleButtonController : MonoBehaviour
     [SerializeField]
     GameObject titleButtonBase;
     GameObject titleButton;
+
+    [SerializeField]
+    GameObject titlePanelBase;
+    GameObject titlePanel;
+    GameObject ShortPanel, NormalPanel;
 
     [SerializeField]
     GameObject howtoButtonBase;
@@ -47,6 +60,9 @@ public class TitleButtonController : MonoBehaviour
     int howtoPage;
     int howtoPageMax = 7;
 
+    GameLength gameLength = GameLength.Short;
+    public static GameInstance.GameType gameType { get; private set; } = GameInstance.GameType._1PvsCOMShort;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,8 +70,12 @@ public class TitleButtonController : MonoBehaviour
         canvas = GameObject.Find("Canvas");
 
         titleButton = Instantiate(titleButtonBase, canvas.transform);
-        //titleButton.transform.SetAsLastSibling();
 
+        titlePanel = Instantiate(titlePanelBase, canvas.transform);
+        ShortPanel = titlePanel.transform.Find("ShortPanel").gameObject;
+        ShortPanel.SetActive(false);
+        NormalPanel = titlePanel.transform.Find("NormalPanel").gameObject;
+        NormalPanel.SetActive(false);
 
         howtoButton = Instantiate(howtoButtonBase, canvas.transform);
         howtoButton.transform.SetAsLastSibling();
@@ -75,7 +95,7 @@ public class TitleButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(howtoPage);
+        
 
         if (eventSystem != null)
         {
@@ -103,9 +123,15 @@ public class TitleButtonController : MonoBehaviour
                         buttonAnimator.SetInteger("TitleState", (int)TitleState.Close);
                         break;
                     case "1PvsCOM":
+                        gameLength = GameLength.Short;
+                        ShortPanel.SetActive(true);
+                        NormalPanel.SetActive(false);
                         buttonAnimator.SetInteger("TitleState", (int)TitleState._1PvsCOM);
                         break;
                     case "1Pvs2P":
+                        gameLength = GameLength.Short;
+                        ShortPanel.SetActive(true);
+                        NormalPanel.SetActive(false);
                         buttonAnimator.SetInteger("TitleState", (int)TitleState._1Pvs2P);
                         break;
                     case "LeftArrow":
@@ -132,6 +158,34 @@ public class TitleButtonController : MonoBehaviour
                 }
 
             }
+
+            if (Input.GetButtonDown("Select"))
+            {
+                switch (state)
+                {
+                    case "1PvsCOM":
+                    case "1Pvs2P":
+                        AudioController.Instance.PlaySE(AudioController.SE.moveButton);
+                        gameLength = GameLength.Short + ((int)gameLength + 1) % Enum.GetValues(typeof(GameLength)).Length;
+                        switch (gameLength)
+                        {
+                            case GameLength.Short:
+                                ShortPanel.SetActive(true);
+                                NormalPanel.SetActive(false);
+                                break;
+                            case GameLength.Normal:
+                                ShortPanel.SetActive(false);
+                                NormalPanel.SetActive(true);
+                                break;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                Debug.Log(gameLength);
+            }
+
             if (Input.GetButtonDown("Submit"))
             {
                 switch (state)
@@ -139,6 +193,8 @@ public class TitleButtonController : MonoBehaviour
                     case "Start":
                         //StartGame();
                         eventSystem.SetSelectedGameObject(titleButton.transform.Find("1PvsCOM/1PvsCOM").gameObject);
+                        ShortPanel.SetActive(true);
+                        NormalPanel.SetActive(false);
                         break;
                     case "HowtoPlay":
                         HowtoPlay();
@@ -147,12 +203,30 @@ public class TitleButtonController : MonoBehaviour
                         CloseGame();
                         break;
                     case "1PvsCOM":
-                        StartGame1PvsCOM();
-
+                        switch (gameLength)
+                        {
+                            case GameLength.Short:
+                                StartGame1PvsCOMShort();
+                                break;
+                            case GameLength.Normal:
+                                StartGame1PvsCOMNormal();
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case "1Pvs2P":
-                        StartGame1Pvs2P();
-
+                        switch (gameLength)
+                        {
+                            case GameLength.Short:
+                                StartGame1Pvs2PShort();
+                                break;
+                            case GameLength.Normal:
+                                StartGame1Pvs2PNormal();
+                                break;
+                            default:
+                                break;
+                        }
                         break;
 
                     default:
@@ -167,10 +241,11 @@ public class TitleButtonController : MonoBehaviour
                 switch (state)
                 {
                     case "1PvsCOM":
-                        eventSystem.SetSelectedGameObject(titleButton.transform.Find("Start/Start").gameObject);
-                        break;
                     case "1Pvs2P":
                         eventSystem.SetSelectedGameObject(titleButton.transform.Find("Start/Start").gameObject);
+                        gameLength = GameLength.Short;
+                        ShortPanel.SetActive(false);
+                        NormalPanel.SetActive(false);
                         break;
                     case "HowtoIdol":
                         //titleButton.SetActive(true);
@@ -218,17 +293,31 @@ public class TitleButtonController : MonoBehaviour
             previousState = state;
         }
     }
-    public void StartGame1PvsCOM()
+    public void StartGame1PvsCOMShort()
     {
-        //GameInstance.Instance.SetPlayerNum(1);
-        GameInstance.Instance.SetGameType(GameInstance.GameType._1PvsCOM);
+        gameType = GameInstance.GameType._1PvsCOMShort;
+        //GameInstance.Instance.SetGameType(GameInstance.GameType._1PvsCOMShort);
         SceneManager.LoadScene("Main");
     }
 
-    public void StartGame1Pvs2P()
+    public void StartGame1PvsCOMNormal()
     {
-        //GameInstance.Instance.SetPlayerNum(2);
-        GameInstance.Instance.SetGameType(GameInstance.GameType._1Pvs2P);
+        gameType = GameInstance.GameType._1PvsCOMNormal;
+        //GameInstance.Instance.SetGameType(GameInstance.GameType._1PvsCOMNormal);
+        SceneManager.LoadScene("Main");
+    }
+
+    public void StartGame1Pvs2PShort()
+    {
+        gameType = GameInstance.GameType._1Pvs2PShort;
+        //GameInstance.Instance.SetGameType(GameInstance.GameType._1Pvs2PShort);
+        SceneManager.LoadScene("Main");
+    }
+
+    public void StartGame1Pvs2PNormal()
+    {
+        gameType = GameInstance.GameType._1Pvs2PNormal;
+        //GameInstance.Instance.SetGameType(GameInstance.GameType._1Pvs2PNormal);
         SceneManager.LoadScene("Main");
     }
 

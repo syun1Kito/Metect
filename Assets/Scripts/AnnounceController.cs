@@ -13,11 +13,14 @@ public class AnnounceController : MonoBehaviour
 
     GameObject canvas;
 
+    GameManager gameManager;
+
     // Start is called before the first frame update
     void Awake()
     {
         canvas = GameObject.Find("Canvas");
 
+        gameManager = GetComponent<GameManager>();
 
         announce = Instantiate(announceBase, announceBase.transform.position, Quaternion.identity, canvas.transform);
         animator = announce.GetComponent<Animator>();
@@ -54,6 +57,7 @@ public class AnnounceController : MonoBehaviour
     public void Finish()
     {
         animator.SetTrigger("Finish");
+        gameManager.pauseController.pauseable = false;
         AudioController.Instance.PlaySE(AudioController.SE.end);
     }
 }

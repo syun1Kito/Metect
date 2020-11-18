@@ -10,7 +10,7 @@ public class TimeController : MonoBehaviour
 
 
     [SerializeField]
-    GameObject timerBase;
+    GameObject timerBase = null;
     GameObject timer;
     [SerializeField]
     Vector3 timerPos;
@@ -22,11 +22,15 @@ public class TimeController : MonoBehaviour
     float second;
     float oldSecond;
 
-    [SerializeField]
-    int speedUpInterval = 15;
+    //[SerializeField]
+    //int speedUpInterval = 15;
 
-    [SerializeField]
-    int itemSpawnInterval = 10;
+    public int speedUpInterval { get; set; }
+
+    //[SerializeField]
+    //int itemSpawnInterval = 10;
+    public int itemSpawnInterval { get; set; }
+    public float defaultSpawnPerSecond { get; set; }
 
     public bool isRunning { get; set; } = false;
     public bool playable { get; set; } = false;
@@ -68,7 +72,7 @@ public class TimeController : MonoBehaviour
         oldSecond = realTime;
     }
 
-    public void Timer()
+    public string Timer()
     {
         if ((int)realTime != (int)oldSecond)
         {
@@ -76,6 +80,7 @@ public class TimeController : MonoBehaviour
             second = (int)realTime % 60;
             timerText.text = minute.ToString("00") + ":" + second.ToString("00");
         }
+        return timerText.text;
     }
 
     public int MinuteToSecond(int minute, int second)

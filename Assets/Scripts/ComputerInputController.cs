@@ -6,9 +6,13 @@ public class ComputerInputController : InputController
 {
     bool isFripedLeft, isFripedRight;
     bool existBallLeft, existBallRight;
-    float maxDelay = 0.3f;
+    float maxDelay = 0.2f;
+    float smartMAXDelay = 0f;
+    float oppositeDelay = 0.1f;
     float releaseDlay = 0.2f;
 
+    [SerializeField]
+    bool smartAI = true;
     protected override void Start()
     {
         playerController = GetComponent<PlayerController>();
@@ -57,8 +61,32 @@ public class ComputerInputController : InputController
         if (timeController.playable)
         {
             existBallLeft = true;
-            float randomDelay = Random.Range(0f, maxDelay);
-            StartCoroutine(ActivateLeftFrip(randomDelay));
+#if UNITY_EDITOR
+            if (playerController.playerID == 1)
+            {
+                Debug.Log(playerController.meteorController.CalcMeteorWeight());
+                Debug.Log(playerController.meteorController.CalcMeteorWeight().IsDangerLeft()?"←":"→");
+            }
+#else
+#endif
+            if (smartAI)
+            {
+                float randomDelay = Random.Range(0f, smartMAXDelay);
+                if (playerController.meteorController.CalcMeteorWeight().IsDangerLeft())
+                {
+                    StartCoroutine(ActivateLeftFrip(randomDelay));
+                }
+                else
+                {
+                    StartCoroutine(ActivateLeftFrip(oppositeDelay + randomDelay));
+                }
+            }
+            else
+            {
+                float randomDelay = Random.Range(0f, maxDelay);
+                StartCoroutine(ActivateLeftFrip(randomDelay));
+            }
+
         }
     }
 
@@ -67,7 +95,7 @@ public class ComputerInputController : InputController
     public IEnumerator ActivateLeftFrip(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log(delay);
+        //Debug.Log(delay);
 
         if (existBallLeft)
         {
@@ -88,20 +116,46 @@ public class ComputerInputController : InputController
         isFripedLeft = false;
     }
 
+
+
+
     public void BallOnTriggerEnter2DRight()
     {
         if (timeController.playable)
         {
             existBallRight = true;
-            float randomDelay = Random.Range(0f, maxDelay);
-            StartCoroutine(ActivateRightFrip(randomDelay));
+#if UNITY_EDITOR
+            if (playerController.playerID == 1)
+            {
+                Debug.Log(playerController.meteorController.CalcMeteorWeight());
+                Debug.Log(playerController.meteorController.CalcMeteorWeight().IsDangerLeft() ? "←" : "→");
+            }
+#else
+#endif
+            if (smartAI)
+            {
+                float randomDelay = Random.Range(0f, smartMAXDelay);
+                if (playerController.meteorController.CalcMeteorWeight().IsDangerLeft())
+                {
+                    StartCoroutine(ActivateRightFrip(oppositeDelay + randomDelay));
+                }
+                else
+                {
+                    StartCoroutine(ActivateRightFrip(randomDelay));
+                }
+            }
+            else
+            {
+                float randomDelay = Random.Range(0f, maxDelay);
+                StartCoroutine(ActivateRightFrip(randomDelay));
+            }
         }
     }
 
     public IEnumerator ActivateRightFrip(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Debug.Log(delay);
+        //Debug.Log(delay);
 
         if (existBallRight)
         {
@@ -122,5 +176,12 @@ public class ComputerInputController : InputController
     {
         yield return new WaitForSeconds(releaseDlay);
         isFripedRight = false;
+    }
+
+    public void ChangeTimeScale()
+    {
+        maxDelay /= Time.timeScale;
+        oppositeDelay /= Time.timeScale;
+        releaseDlay /= Time.timeScale;
     }
 }
